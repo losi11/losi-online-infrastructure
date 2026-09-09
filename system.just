@@ -1,13 +1,15 @@
-maintain:
+alias mn := maintain
+
+@maintain:
     #!/bin/bash
     set -euo pipefail
 
-    journalctl --vacuum-time=7d
+    @journalctl --vacuum-time=7d
 
-    sudo apt autoremove -y --purge
-    sudo apt clean
+    @sudo apt autoremove -y --purge
+    @sudo apt clean
 
-    docker system prune -af
-    docker volume prune -f
+    @docker system prune -af
+    @docker volume prune -f
 
-    echo "🛠️ Maintained successfully!"
+    just info "maintaned successfully"

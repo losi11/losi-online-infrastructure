@@ -1,72 +1,51 @@
 STACKS_DIRECTORY := "stacks"
 
-alias dec := decrypt
-alias enc := encrypt
+alias dt := decrypt
+alias et := encrypt
 
-decrypt stack='':
+@decrypt stack="":
+    just stacks env _process decrypt "{{stack}}"
+
+@encrypt stack="":
+    just stacks env _process encrypt "{{stack}}"
+
+_process action stack="":
     #!/bin/bash
     set -euo pipefail
 
-    STACKS_DIRECTORY="{{STACKS_DIRECTORY}}"
+    if [ "{{action}}" = "decrypt" ]; then
+        source=".enc.env"
+        target=".env"
+    else
+        source=".env"
+        target=".enc.env"
+    fi
 
-    decrypt_stack_env() {
+    process() {
         local stack_directory="$1"
 
-        if [ ! -f "$stack_directory/.enc.env" ]; then
-            echo "⚠️ Warning: $stack_directory doesn't have .enc.env file. Skipping..."
+        if [ ! -f "$stack_directory/$source" ]; then
+            just warn "$stack_directory" "Doesn't have $source file. Skipping..."
             return 0
         fi
 
-        sops decrypt "$stack_directory/.enc.env" >"$stack_directory/.env"
+        sops "{{action}}" "$stack_directory/$source" >"$stack_directory/$target"
+        just success "$stack_directory"
     }
 
-    if [ -n "{{stack}}" ]; then
-        stack_directory="$STACKS_DIRECTORY/{{stack}}"
+    if [ -n "{{ stack }}" ]; then
+        stack_directory="{{STACKS_DIRECTORY}}/{{stack}}"
 
         if [ -d "$stack_directory" ]; then
-            decrypt_stack_env "$stack_directory"
+            process "$stack_directory"
         else
-            echo "⛔️ Error: $stack_directory doesn't exist. Aborting..."
+            just error "$stack_directory" "Doesn't exist. Aborting..."
             exit 1
         fi
     else
-        for stack_directory in "$STACKS_DIRECTORY"/*; do
-            decrypt_stack_env "$stack_directory"
+        for stack_directory in "{{STACKS_DIRECTORY}}"/*; do
+            process "$stack_directory"
         done
     fi
 
-    echo "🔓 Decrypted successfully!"
-
-encrypt stack='':
-    #!/bin/bash
-    set -euo pipefail
-
-    STACKS_DIRECTORY="{{STACKS_DIRECTORY}}"
-
-    encrypt_stack_env() {
-        local stack_directory="$1"
-
-        if [ ! -f "$stack_directory/.env" ]; then
-            echo "⚠️ Warning: $stack_directory doesn't have .env file. Skipping..."
-            return 0
-        fi
-
-        sops encrypt "$stack_directory/.env" >"$stack_directory/.enc.env"
-    }
-
-    if [ -n "{{stack}}" ]; then
-        stack_directory="$STACKS_DIRECTORY/{{stack}}"
-
-        if [ -d "$stack_directory" ]; then
-            encrypt_stack_env "$stack_directory"
-        else
-            echo "⛔️ Error: $stack_directory doesn't exist. Aborting..."
-            exit 1
-        fi
-    else
-        for stack_directory in "$STACKS_DIRECTORY"/*; do
-            encrypt_stack_env "$stack_directory"
-        done
-    fi
-
-    echo "🔒 Encrypted successfully!"
+    just info "{{action}}ed successfully"
