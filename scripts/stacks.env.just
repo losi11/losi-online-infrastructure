@@ -25,12 +25,12 @@ _process action stack="":
         local stack_directory="$1"
 
         if [ ! -f "$stack_directory/$source" ]; then
-            just warn "$stack_directory" "Doesn't have $source file. Skipping..."
+            just _warn "$stack_directory" "Doesn't have $source file. Skipping..."
             return 0
         fi
 
         sops "{{action}}" "$stack_directory/$source" >"$stack_directory/$target"
-        just success "$stack_directory"
+        just _success "$stack_directory"
     }
 
     if [ -n "{{ stack }}" ]; then
@@ -39,7 +39,7 @@ _process action stack="":
         if [ -d "$stack_directory" ]; then
             process "$stack_directory"
         else
-            just error "$stack_directory" "Doesn't exist. Aborting..."
+            just _error "$stack_directory" "Doesn't exist. Aborting..."
             exit 1
         fi
     else
@@ -48,4 +48,4 @@ _process action stack="":
         done
     fi
 
-    just info "{{action}}ed successfully"
+    just _info "{{action}}ed successfully"

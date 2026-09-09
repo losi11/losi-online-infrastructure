@@ -34,7 +34,7 @@ _process action stack="":
             ;;
         esac
 
-        just success "$stack_directory"
+        just _success "$stack_directory"
     }
 
     if [ -n "{{stack}}" ]; then
@@ -43,7 +43,7 @@ _process action stack="":
         if [ -d "$stack_directory" ]; then
             process "$stack_directory"
         else
-            just error "$stack_directory" "Doesn't exist. Aborting..."
+            just _error "$stack_directory" "Doesn't exist. Aborting..."
             exit 1
         fi
     else
@@ -52,4 +52,4 @@ _process action stack="":
         done
     fi
 
-    just info "{{action}}ed successfully"
+    just _info "{{action}}ed successfully"
