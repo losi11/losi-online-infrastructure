@@ -11,7 +11,7 @@ alias sp := stop
 @stop stack="":
     just stacks _process stop "{{stack}}"
 
-_process action stack="":
+@_process action stack="":
     #!/bin/bash
     set -euo pipefail
 
@@ -26,11 +26,11 @@ _process action stack="":
     process() {
         local stack_directory="$1"
 
-        (cd "$stack_directory" && @docker compose $compose_command)
+        (cd "$stack_directory" && docker compose $compose_command)
 
         case "$stack_directory" in
         *beszel)
-            @tailscale serve $tailscale_command
+            tailscale serve $tailscale_command
             ;;
         esac
 
