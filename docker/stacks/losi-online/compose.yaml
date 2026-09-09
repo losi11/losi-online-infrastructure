@@ -1,0 +1,13 @@
+services:
+  losi-online:
+    container_name: losi-online
+    image: ghcr.io/losi11/losi-online
+    restart: unless-stopped
+    networks:
+      - proxy
+    env_file:
+      - .env
+
+networks:
+  proxy:
+    external: true
