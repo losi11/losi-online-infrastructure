@@ -26,11 +26,11 @@ _process action stack="":
     process() {
         local stack_directory="$1"
 
-        (cd "$stack_directory" && docker compose $compose_command)
+        (cd "$stack_directory" && @docker compose $compose_command)
 
         case "$stack_directory" in
         *beszel)
-            tailscale serve $tailscale_command
+            @tailscale serve $tailscale_command
             ;;
         esac
 
@@ -52,4 +52,4 @@ _process action stack="":
         done
     fi
 
-    just info "${action^}ed successfully"
+    just info "{{action}}ed successfully"
