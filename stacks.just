@@ -11,7 +11,7 @@ alias sp := stop
 @stop stack="":
     just stacks _process stop "{{stack}}"
 
-@_process action stack="":
+_process action stack="":
     #!/bin/bash
     set -euo pipefail
 
