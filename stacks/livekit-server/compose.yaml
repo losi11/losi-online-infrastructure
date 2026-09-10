@@ -9,8 +9,8 @@ services:
       - 7881:7881/tcp
       - 7882:7882/udp
     environment:
-      - LIVEKIT_KEYS=${LIVEKIT_KEY}:${LIVEKIT_SECRET}
-      - LIVEKIT_CONFIG={"rtc":{"udp_port":7882,"use_external_ip":true}}
+      - "LIVEKIT_KEYS=${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
+      - 'LIVEKIT_CONFIG={"rtc":{"udp_port":7882,"use_external_ip":true}}'
 
 networks:
   proxy:
