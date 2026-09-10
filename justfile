@@ -1,8 +1,8 @@
-mod stacks "scripts/stacks.just"
-mod system "scripts/system.just"
-mod sys "scripts/system.just"
+mod stacks "stacks.just"
+mod system "system.just"
+mod sys "system.just"
 
-import "scripts/common.just"
+import "common.just"
 
 @default:
     just --list --list-submodules

@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    env_file:
-      - .env
+    environment:
+      - LASTFM_API_KEY=${LASTFM_API_KEY}
 
 networks:
   proxy:

@@ -1,0 +1,15 @@
+services:
+  tuwunel:
+    container_name: tuwunel
+    image: ghcr.io/matrix-construct/tuwunel:v1.9.0
+    restart: unless-stopped
+    environment:
+      - TUWUNEL_ALLOW_REGISTRATION=true
+      - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
+      - TUWUNEL_TURN_SECRET=${TUWUNEL_TURN_SECRET}
+      - TUWUNEL_TURN_URIS=[turn:matrix.ocd.beauty:3478?transport=udp]
+    volumes:
+      - var_lib_tuwunel:/var/lib/tuwunel
+
+volumes:
+  var_lib_tuwunel:

@@ -21,9 +21,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - HUB_URL=http://beszel:8090
+      - KEY=${KEY}
       - LISTEN=/beszel_socket/beszel.sock
-    env_file:
-      - .env
+      - TOKEN=${TOKEN}
     depends_on:
       - beszel
 

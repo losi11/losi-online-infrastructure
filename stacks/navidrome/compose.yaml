@@ -5,12 +5,13 @@ services:
     restart: unless-stopped
     networks:
       - proxy
+    environment:
+      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
+      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
     volumes:
       - data:/data
       - /srv/navidrome/music:/music
       - ./data/navidrome.toml:/data/navidrome.toml
-    env_file:
-      - .env
 
 networks:
   proxy:
