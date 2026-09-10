@@ -10,8 +10,6 @@ services:
       - TUWUNEL_ALLOW_REGISTRATION=true
       - TUWUNEL_REGISTRATION_TOKEN=${TUWUNEL_REGISTRATION_TOKEN}
       - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
-      - TUWUNEL_TURN_SECRET=${TUWUNEL_TURN_SECRET}
-      - TUWUNEL_TURN_URIS=[turn:matrix.ocd.beauty:3478?transport=udp]
     volumes:
       - var_lib_tuwunel:/var/lib/tuwunel
 

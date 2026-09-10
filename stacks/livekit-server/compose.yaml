@@ -1,0 +1,17 @@
+services:
+  livekit-server:
+    container_name: livekit-server
+    image: livekit/livekit-server:v1.13.6
+    restart: unless-stopped
+    networks:
+      - proxy
+    ports:
+      - 7881:7881/tcp
+      - 7882:7882/udp
+    environment:
+      - LIVEKIT_KEYS=${LIVEKIT_KEY}:${LIVEKIT_SECRET}
+      - LIVEKIT_CONFIG={"rtc":{"udp_port":7882,"use_external_ip":true}}
+
+networks:
+  proxy:
+    external: true
