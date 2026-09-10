@@ -5,6 +5,9 @@ STACKS_DIRECTORY := "stacks"
 alias st := start
 alias sp := stop
 
+@logs stack="":
+    cd "{{STACKS_DIRECTORY}}/{{stack}}" && docker compose logs -f
+
 @start stack="":
     just stacks _process start "{{stack}}"
 
