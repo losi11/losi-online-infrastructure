@@ -6,6 +6,7 @@ services:
     networks:
       - proxy
     environment:
+      - TUWUNEL_ADDRESS=0.0.0.0
       - TUWUNEL_ALLOW_REGISTRATION=true
       - TUWUNEL_REGISTRATION_TOKEN=${TUWUNEL_REGISTRATION_TOKEN}
       - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
