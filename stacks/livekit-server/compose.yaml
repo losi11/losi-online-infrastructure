@@ -4,7 +4,7 @@ services:
     image: livekit/livekit-server:v1.13.6@sha256:e37d68f172556d02aa77968b9fc55ef481468c0315fa38e4fa6c56ce72e3a815
     restart: unless-stopped
     environment:
-      - 'LIVEKIT_CONFIG={"rtc": {"udp_port":7882}}'
+      - 'LIVEKIT_CONFIG={"rtc":{"udp_port":7882}}'
       - "LIVEKIT_KEYS=${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
       - LIVEKIT_NODE=${LIVEKIT_NODE}
     network_mode: host

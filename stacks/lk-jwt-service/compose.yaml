@@ -6,10 +6,10 @@ services:
     networks:
       - proxy
     environment:
-      - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
+      - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
       - LIVEKIT_KEY=${LIVEKIT_KEY}
       - LIVEKIT_SECRET=${LIVEKIT_SECRET}
-      - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
+      - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
 
 networks:
   proxy:
