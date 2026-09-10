@@ -1,14 +1,15 @@
 services:
-  container_name: lk-jwt-service
-  image: ghcr.io/element-hq/lk-jwt-service:0.7.0
-  restart: unless-stopped
-  networks:
-    - proxy
-  environment:
-    - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
-    - LIVEKIT_KEY=${LIVEKIT_KEY}
-    - LIVEKIT_SECRET=${LIVEKIT_SECRET}
-    - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
+  lk-jwt-service:
+    container_name: lk-jwt-service
+    image: ghcr.io/element-hq/lk-jwt-service:0.7.0
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
+      - LIVEKIT_KEY=${LIVEKIT_KEY}
+      - LIVEKIT_SECRET=${LIVEKIT_SECRET}
+      - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
 
 networks:
   proxy:
