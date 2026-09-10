@@ -3,6 +3,8 @@ services:
     container_name: tuwunel
     image: ghcr.io/matrix-construct/tuwunel:v1.9.0
     restart: unless-stopped
+    networks:
+      - proxy
     environment:
       - TUWUNEL_ALLOW_REGISTRATION=true
       - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
@@ -10,6 +12,10 @@ services:
       - TUWUNEL_TURN_URIS=[turn:matrix.ocd.beauty:3478?transport=udp]
     volumes:
       - var_lib_tuwunel:/var/lib/tuwunel
+
+networks:
+  proxy:
+    external: true
 
 volumes:
   var_lib_tuwunel:

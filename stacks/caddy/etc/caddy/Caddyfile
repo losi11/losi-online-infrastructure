@@ -5,3 +5,17 @@ ocd.beauty {
 music.ocd.beauty {
     reverse_proxy navidrome:4533
 }
+
+matrix.ocd.beauty {
+    handle /.well-known/matrix/client {
+        header Access-Control-Allow-Origin *
+        header Content-Type application/json
+        respond `{"m.homeserver":{"base_url":"https://matrix.ocd.beauty"}}` 200
+    }
+
+    handle {
+        reverse_proxy tuwunel:8008 {
+            flush_interval -1
+        }
+    }
+}

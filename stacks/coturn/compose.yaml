@@ -10,3 +10,4 @@ services:
       - --use-auth-secret
       - --static-auth-secret=${STATIC_AUTH_SECRET}
       - --realm=matrix.ocd.beauty
+    network_mode: host
