@@ -6,8 +6,8 @@ services:
     command:
       - turnserver
       - -n
-      - --lt-cred-mech
       - --use-auth-secret
       - --static-auth-secret=${STATIC_AUTH_SECRET}
       - --realm=matrix.ocd.beauty
+      - --external-ip=${EXTERNAL_IP}
     network_mode: host
