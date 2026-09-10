@@ -1,7 +1,7 @@
 services:
   tuwunel:
     container_name: tuwunel
-    image: ghcr.io/matrix-construct/tuwunel:v1.9.0
+    image: ghcr.io/matrix-construct/tuwunel:v1.9.0@sha256:295a1ceedbfd7afce05c69a38efb246dd31fa810e5d352fc7a09b261853800ee
     restart: unless-stopped
     networks:
       - proxy
