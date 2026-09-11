@@ -2,45 +2,25 @@ tuwunel.ocd.beauty {
     handle /.well-known/matrix/client {
         header Access-Control-Allow-Origin *
         header Content-Type application/json
-        respond `
-        {
-          "m.homeserver": {
-            "base_url": "https://tuwunel.ocd.beauty"
-          },
-          "org.matrix.msc4143.rtc_foci": [
-            {
-              "type": "livekit",
-              "livekit_service_url": "https://lk-jwt-service.tuwunel.ocd.beauty"
-            }
-          ]
-        }
-        ` 200
+        respond `{"m.homeserver":{"base_url":"https://tuwunel.ocd.beauty"},"org.matrix.msc4143.rtc_foci":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
     }
 
     handle /.well-known/matrix/server {
         header Access-Control-Allow-Origin *
         header Content-Type application/json
-        respond `
-        {
-          "m.server": "tuwunel.ocd.beauty:443"
-        }
-        ` 200
+        respond `{"m.server":"tuwunel.ocd.beauty:443"}` 200
     }
 
-    @rtc path /_matrix/client/v1/rtc/transports /_matrix/client/unstable/org.matrix.msc4143/rtc/transports
-    handle @rtc {
+    handle /_matrix/client/unstable/org.matrix.msc4143/rtc/transports {
         header Access-Control-Allow-Origin *
         header Content-Type application/json
-        respond `
-        {
-          "rtc_transports": [
-            {
-              "type": "livekit",
-              "livekit_service_url": "https://lk-jwt-service.tuwunel.ocd.beauty"
-            }
-          ]
-        }
-        ` 200
+        respond `{"rtc_transports":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
+    }
+
+    handle /_matrix/client/v1/rtc/transports {
+        header Access-Control-Allow-Origin *
+        header Content-Type application/json
+        respond `{"rtc_transports":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
     }
 
     handle {
@@ -54,6 +34,6 @@ livekit-server.tuwunel.ocd.beauty {
     reverse_proxy host.docker.internal:7880
 }
 
-lk-jwt-service.tuwunel.ocd.beauty {
+lk-jwt-service.matrix.ocd.beauty {
     reverse_proxy lk-jwt-service:8080
 }
