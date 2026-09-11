@@ -22,14 +22,14 @@ services:
     container_name: beszel-agent
     image: henrygd/beszel-agent:0.19.0
     restart: unless-stopped
-    volumes:
-      - ./beszel_socket:/beszel_socket
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - HUB_URL=http://beszel:8090
       - KEY=${BESZEL_KEY}
       - LISTEN=/beszel_socket/beszel.sock
       - TOKEN=${BESZEL_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./beszel_socket:/beszel_socket
 
   caddy:
     <<: *default-logging
@@ -41,9 +41,9 @@ services:
       - 443:443
       - 443:443/udp
     volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
       - ./caddy_data:/data
       - ./caddy_config:/config
-      - ./Caddyfile:/etc/caddy/Caddyfile
     extra_hosts:
       - host.docker.internal:host-gateway
 
