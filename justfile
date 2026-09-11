@@ -1,8 +1,8 @@
-mod stacks "stacks.just"
-mod system "system.just"
-mod sys "system.just"
+alias dec := decrypt
+alias enc := encrypt
 
-import "common.just"
+@decrypt:
+    sops decrypt .enc.env >.env
 
-@default:
-    just --list --list-submodules
+@encrypt:
+    sops encrypt .env >.enc.env

@@ -1,0 +1,83 @@
+services:
+  beszel:
+    container_name: beszel
+    image: henrygd/beszel:0.19.0
+    restart: unless-stopped
+    ports:
+      - 8090:8090
+    volumes:
+      - beszel_data:/beszel_data
+      - beszel_socket:/beszel_socket
+    environment:
+      - APP_URL=http://localhost:8090
+
+  beszel-agent:
+    container_name: beszel-agent
+    image: henrygd/beszel-agent:0.19.0
+    restart: unless-stopped
+    volumes:
+      - beszel_socket:/beszel_socket
+      - var_lib_beszel_agent:/var/lib/beszel-agent
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - HUB_URL=http://beszel:8090
+      - KEY=${KEY}
+      - LISTEN=/beszel_socket/beszel.sock
+      - TOKEN=${TOKEN}
+    depends_on:
+      - beszel
+
+  caddy:
+    container_name: caddy
+    image: caddy:2.11.4
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    volumes:
+      - data:/data
+      - config:/config
+      - ./etc/caddy/Caddyfile:/etc/caddy/Caddyfile
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  livekit-server:
+    container_name: livekit-server
+    image: livekit/livekit-server:v1.13.6
+    restart: unless-stopped
+    environment:
+      - 'LIVEKIT_CONFIG={"rtc":{"udp_port":7882}}'
+      - "LIVEKIT_KEYS=${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
+      - LIVEKIT_NODE=${LIVEKIT_NODE}
+    network_mode: host
+
+  lk-jwt-service:
+    container_name: lk-jwt-service
+    image: ghcr.io/element-hq/lk-jwt-service:0.7.0
+    restart: unless-stopped
+    environment:
+      - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
+      - LIVEKIT_KEY=${LIVEKIT_KEY}
+      - LIVEKIT_SECRET=${LIVEKIT_SECRET}
+      - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
+
+  tuwunel:
+    container_name: tuwunel
+    image: ghcr.io/matrix-construct/tuwunel:v1.9.0
+    restart: unless-stopped
+    environment:
+      - TUWUNEL_ADDRESS=0.0.0.0
+      - TUWUNEL_ALLOW_REGISTRATION=true
+      - TUWUNEL_REGISTRATION_TOKEN=${TUWUNEL_REGISTRATION_TOKEN}
+      - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
+    volumes:
+      - var_lib_tuwunel:/var/lib/tuwunel
+
+volumes:
+  beszel_data:
+  beszel_socket:
+  var_lib_beszel_agent:
+  data:
+  config:
+  var_lib_tuwunel:
