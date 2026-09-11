@@ -1,2 +1,4 @@
 creation_rules:
-  - age: "age19tlnwt3yu46a84hlqlwcc9nskp5g7uql7r8r97xgklz2s8gz4enshndgel,age1trfc5pleq8l6rcd33wwxn2laq3xwn9z3m0hwqz784vl58h8z8ejqrzyda6"
+  - age:
+    - age19tlnwt3yu46a84hlqlwcc9nskp5g7uql7r8r97xgklz2s8gz4enshndgel # My PC
+    - age1trfc5pleq8l6rcd33wwxn2laq3xwn9z3m0hwqz784vl58h8z8ejqrzyda6 # VPS/VDS
