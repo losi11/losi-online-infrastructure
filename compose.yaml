@@ -1,9 +1,9 @@
 x-logging: &default-logging
   logging:
-    driver: json-file
+    driver: local
     options:
-      max-size: 10m
       max-file: 3
+      max-size: 10m
 
 services:
   beszel:
@@ -16,9 +16,6 @@ services:
     volumes:
       - ./beszel_data:/beszel_data
       - ./beszel_socket:/beszel_socket
-    environment:
-      - USER_EMAIl=${BESZEL_USER_EMAIL}
-      - USER_PASSWORD=${BESZEL_USER_PASSWORD}
 
   beszel-agent:
     <<: *default-logging
