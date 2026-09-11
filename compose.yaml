@@ -69,10 +69,10 @@ services:
     image: ghcr.io/element-hq/lk-jwt-service:0.7.0
     restart: unless-stopped
     environment:
-      - LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.ocd.beauty
+      - LIVEKIT_FULL_ACCESS_HOMESERVERS=${LIVEKIT_FULL_ACCESS_HOMESERVERS}
       - LIVEKIT_KEY=${LIVEKIT_KEY}
       - LIVEKIT_SECRET=${LIVEKIT_SECRET}
-      - LIVEKIT_URL=wss://livekit.matrix.ocd.beauty
+      - LIVEKIT_URL=${LIVEKIT_URL}
 
   tuwunel:
     <<: *default-logging
@@ -83,6 +83,6 @@ services:
       - TUWUNEL_ADDRESS=0.0.0.0
       - TUWUNEL_ALLOW_REGISTRATION=true
       - TUWUNEL_REGISTRATION_TOKEN=${TUWUNEL_REGISTRATION_TOKEN}
-      - TUWUNEL_SERVER_NAME=matrix.ocd.beauty
+      - TUWUNEL_SERVER_NAME=${TUWUNEL_SERVER_NAME}
     volumes:
       - ./var_lib_tuwunel:/var/lib/tuwunel
