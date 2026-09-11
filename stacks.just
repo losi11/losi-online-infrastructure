@@ -20,22 +20,14 @@ _process action stack="":
 
     if [ "{{action}}" = "start" ]; then
         compose_command="up -d"
-        tailscale_command="--bg --https=8090 http://localhost:8090"
     else
         compose_command="down"
-        tailscale_command="--bg --https=8090 off"
     fi
 
     process() {
         local stack_directory="$1"
 
         (cd "$stack_directory" && docker compose $compose_command)
-
-        case "$stack_directory" in
-        *beszel)
-            tailscale serve $tailscale_command
-            ;;
-        esac
 
         just _success "$stack_directory"
     }
