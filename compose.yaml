@@ -28,6 +28,7 @@ services:
     environment:
       - HUB_URL=http://beszel:8090
       - KEY=${BESZEL_KEY}
+      - LISTEN=/beszel_socket/beszel.sock
       - TOKEN=${BESZEL_TOKEN}
 
   caddy:
