@@ -2,10 +2,6 @@ ocd.beauty {
     reverse_proxy losi-online:3000
 }
 
-music.ocd.beauty {
-    reverse_proxy navidrome:4533
-}
-
 matrix.ocd.beauty {
     handle /.well-known/matrix/client {
         header Access-Control-Allow-Origin *
