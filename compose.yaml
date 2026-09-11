@@ -72,6 +72,18 @@ services:
       - LIVEKIT_SECRET=${LIVEKIT_SECRET}
       - LIVEKIT_URL=${LIVEKIT_URL}
 
+  navidrome:
+    <<: *default-logging
+    container_name: navidrome
+    image: deluan/navidrome:0.63.2
+    restart: unless-stopped
+    environment:
+      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
+      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+    volumes:
+      - ./navidrome_data:/data
+      - ./navidrome_music:/music
+
   tuwunel:
     <<: *default-logging
     container_name: tuwunel
