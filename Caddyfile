@@ -1,5 +1,5 @@
 copyparty.ocd.beauty {
-    reverse_proxy copyparty:3923
+    reverse_proxy unix//run/copyparty/copyparty.sock
 }
 
 continuwuity.ocd.beauty {
@@ -7,7 +7,7 @@ continuwuity.ocd.beauty {
 }
 
 navidrome.ocd.beauty {
-    reverse_proxy navidrome:4533
+    reverse_proxy unix//run/navidrome/navidrome.sock
 }
 
 livekit-server.continuwuity.ocd.beauty {

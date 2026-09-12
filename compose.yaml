@@ -41,6 +41,8 @@ services:
       - 443:443
     volumes:
       - /run/continuwuity:/run/continuwuity
+      - /run/copyparty:/run/copyparty
+      - /run/navidrome:/run/navidrome
       - /srv/caddy/config:/config
       - /srv/caddy/data:/data
       - ./Caddyfile:/etc/caddy/Caddyfile
@@ -78,7 +80,10 @@ services:
     container_name: navidrome
     image: deluan/navidrome:0.63.2
     restart: unless-stopped
+    environment:
+      - ND_ADDRESS=/run/navidrome/navidrome.sock
     volumes:
+      - /run/navidrome:/run/navidrome
       - /srv/navidrome/data:/data
       - /srv/navidrome/music:/music
 
@@ -93,6 +98,7 @@ services:
       - -a
       - ${COPYPARTY_USER}:${COPYPARTY_PASSWORD}
     volumes:
+      - /run/copyparty:/run/copyparty
       - /srv/copyparty/cfg:/cfg
       - /srv/navidrome/music:/music
       - ./copyparty.conf:/cfg/copyparty.conf
