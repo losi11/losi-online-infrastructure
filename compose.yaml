@@ -69,10 +69,10 @@ services:
     image: ghcr.io/element-hq/lk-jwt-service:0.7.0
     restart: unless-stopped
     environment:
-      - LIVEKIT_FULL_ACCESS_HOMESERVERS=${LIVEKIT_FULL_ACCESS_HOMESERVERS}
+      - LIVEKIT_FULL_ACCESS_HOMESERVERS=continuwuity.ocd.beauty
       - LIVEKIT_KEY=${LIVEKIT_KEY}
       - LIVEKIT_SECRET=${LIVEKIT_SECRET}
-      - LIVEKIT_URL=${LIVEKIT_URL}
+      - LIVEKIT_URL=wss://livekit-server.continuwuity.ocd.beauty
 
   navidrome:
     <<: *default-logging
@@ -111,7 +111,7 @@ services:
       - CONTINUWUITY_ALLOW_REGISTRATION=${CONTINUWUITY_ALLOW_REGISTRATION}
       - CONTINUWUITY_CONFIG=/etc/continuwuity.toml
       - CONTINUWUITY_REGISTRATION_TOKEN=${CONTINUWUITY_REGISTRATION_TOKEN}
-      - CONTINUWUITY_SERVER_NAME=${CONTINUWUITY_SERVER_NAME}
+      - CONTINUWUITY_SERVER_NAME=continuwuity.ocd.beauty
     volumes:
       - /run/continuwuity:/run/continuwuity
       - /srv/conduwuit:/var/lib/conduwuit
