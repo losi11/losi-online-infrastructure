@@ -14,8 +14,8 @@ services:
     ports:
       - 8090:8090
     volumes:
-      - ./beszel_data:/beszel_data
-      - ./beszel_socket:/beszel_socket
+      - /run/beszel:/beszel_socket
+      - /srv/beszel/data:/beszel_data
 
   beszel-agent:
     <<: *default-logging
@@ -28,8 +28,8 @@ services:
       - LISTEN=/beszel_socket/beszel.sock
       - TOKEN=${BESZEL_TOKEN}
     volumes:
+      - /run/beszel:/beszel_socket
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./beszel_socket:/beszel_socket
 
   caddy:
     <<: *default-logging
@@ -39,11 +39,11 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 443:443/udp
     volumes:
+      - /run/continuwuity:/run/continuwuity
+      - /srv/caddy/config:/config
+      - /srv/caddy/data:/data
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy_data:/data
-      - ./caddy_config:/config
     extra_hosts:
       - host.docker.internal:host-gateway
 
@@ -52,8 +52,10 @@ services:
     container_name: livekit-server
     image: livekit/livekit-server:v1.13.6
     restart: unless-stopped
-    command:
-      - --config /etc/livekit.yaml
+    command: [
+      "--config",
+      "/etc/livekit.yaml"
+    ]
     environment:
       - "LIVEKIT_KEYS=${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
       - LIVEKIT_NODE=${LIVEKIT_NODE}
@@ -77,22 +79,40 @@ services:
     container_name: navidrome
     image: deluan/navidrome:0.63.2
     restart: unless-stopped
-    environment:
-      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
-      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
     volumes:
-      - ./navidrome_data:/data
-      - ./navidrome_music:/music
+      - /srv/navidrome/data:/data
+      - /srv/navidrome/music:/music
 
-  tuwunel:
+  copyparty:
     <<: *default-logging
-    container_name: tuwunel
-    image: ghcr.io/matrix-construct/tuwunel:v1.9.0
+    container_name: copyparty
+    image: copyparty/ac:1.20.23
     restart: unless-stopped
-    environment:
-      - TUWUNEL_ADDRESS=0.0.0.0
-      - TUWUNEL_ALLOW_REGISTRATION=${TUWUNEL_ALLOW_REGISTRATION}
-      - TUWUNEL_REGISTRATION_TOKEN=${TUWUNEL_REGISTRATION_TOKEN}
-      - TUWUNEL_SERVER_NAME=${TUWUNEL_SERVER_NAME}
+    command:
+      - -v
+      - /music::A,${COPYPARTY_USERNAME}
+      - -a
+      - ${COPYPARTY_USERNAME}:${COPYPARTY_PASSWORD}
+      - --e2d
+      - --rproxy
+      - "1"
     volumes:
-      - ./var_lib_tuwunel:/var/lib/tuwunel
+      - /srv/copyparty/cfg:/cfg
+      - /srv/navidrome/music:/music
+
+  continuwuity:
+    <<: *default-logging
+    container_name: continuwuity
+    image: forgejo.ellis.link/continuwuation/continuwuity:latest-maxperf
+    restart: unless-stopped
+    command:
+     - /sbin/conduwuit
+    environment:
+      - CONTINUWUITY_ALLOW_REGISTRATION=${CONTINUWUITY_ALLOW_REGISTRATION}
+      - CONTINUWUITY_CONFIG=/etc/continuwuity.toml
+      - CONTINUWUITY_REGISTRATION_TOKEN=${CONTINUWUITY_REGISTRATION_TOKEN}
+      - CONTINUWUITY_SERVER_NAME=${CONTINUWUITY_SERVER_NAME}
+    volumes:
+      - /run/continuwuity:/run/continuwuity
+      - /srv/conduwuit:/var/lib/conduwuit
+      - ./continuwuity.toml:/etc/continuwuity.toml

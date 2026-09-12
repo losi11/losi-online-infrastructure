@@ -1,39 +1,22 @@
-tuwunel.ocd.beauty {
-    handle /.well-known/matrix/client {
-        header Access-Control-Allow-Origin *
-        header Content-Type application/json
-        respond `{"m.homeserver":{"base_url":"https://tuwunel.ocd.beauty"},"org.matrix.msc4143.rtc_foci":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
-    }
+copyparty.ocd.beauty {
+    reverse_proxy copyparty:3923
+}
 
-    handle /.well-known/matrix/server {
-        header Access-Control-Allow-Origin *
-        header Content-Type application/json
-        respond `{"m.server":"tuwunel.ocd.beauty:443"}` 200
-    }
+continuwuity.ocd.beauty {
+    reverse_proxy unix//run/continuwuity/continuwuity.sock
+}
 
-    handle /_matrix/client/unstable/org.matrix.msc4143/rtc/transports {
-        header Access-Control-Allow-Origin *
-        header Content-Type application/json
-        respond `{"rtc_transports":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
-    }
+navidrome.ocd.beauty {
+    reverse_proxy navidrome:4533
+}
 
-    handle /_matrix/client/v1/rtc/transports {
-        header Access-Control-Allow-Origin *
-        header Content-Type application/json
-        respond `{"rtc_transports":[{"type":"livekit","livekit_service_url":"https://lk-jwt-service.tuwunel.ocd.beauty"}]}` 200
+livekit-server.continuwuity.ocd.beauty {
+    @lk-jwt-service path /sfu/get* /healthz* /get_token*
+    handle @lk-jwt-service {
+        reverse_proxy lk-jwt-service:8080
     }
 
     handle {
-        reverse_proxy tuwunel:8008 {
-            flush_interval -1
-        }
+        reverse_proxy host.docker.internal:7880
     }
-}
-
-livekit-server.tuwunel.ocd.beauty {
-    reverse_proxy host.docker.internal:7880
-}
-
-lk-jwt-service.matrix.ocd.beauty {
-    reverse_proxy lk-jwt-service:8080
 }
