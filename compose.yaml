@@ -80,12 +80,11 @@ services:
     container_name: navidrome
     image: deluan/navidrome:0.63.2
     restart: unless-stopped
-    environment:
-      - ND_ADDRESS=/run/navidrome/navidrome.sock
     volumes:
       - /run/navidrome:/run/navidrome
       - /srv/navidrome/data:/data
       - /srv/navidrome/music:/music
+      - ./navidrome.toml:/data/navidrome.toml
 
   copyparty:
     <<: *default-logging
