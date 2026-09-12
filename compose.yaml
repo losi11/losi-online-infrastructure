@@ -52,10 +52,9 @@ services:
     container_name: livekit-server
     image: livekit/livekit-server:v1.13.6
     restart: unless-stopped
-    command: [
-      "--config",
-      "/etc/livekit.yaml"
-    ]
+    command:
+      - --config
+      - /etc/livekit.yaml
     environment:
       - "LIVEKIT_KEYS=${LIVEKIT_KEY}: ${LIVEKIT_SECRET}"
       - LIVEKIT_NODE=${LIVEKIT_NODE}
@@ -89,16 +88,14 @@ services:
     image: copyparty/ac:1.20.23
     restart: unless-stopped
     command:
-      - -v
-      - /music::A,${COPYPARTY_USERNAME}
+      - -c
+      - /cfg/copyparty.conf
       - -a
-      - ${COPYPARTY_USERNAME}:${COPYPARTY_PASSWORD}
-      - --e2d
-      - --rproxy
-      - "1"
+      - ${COPYPARTY_USER}:${COPYPARTY_PASSWORD}
     volumes:
       - /srv/copyparty/cfg:/cfg
       - /srv/navidrome/music:/music
+      - ./copyparty.conf:/cfg/copyparty.conf
 
   continuwuity:
     <<: *default-logging
